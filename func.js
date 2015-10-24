@@ -1,6 +1,8 @@
 // http://www.tutorialspoint.com/html5/html5_websocket.htm
 
 var ws = "";
+document.getElementById("loginNameField").focus();
+document.getElementById("loginNameField").select();
 
 // Add eventlistener to loginNameField field.
 document.getElementById("loginNameField").addEventListener("keyup", function (e) {
@@ -53,8 +55,9 @@ function connect () {
             ws.send(msg);
         }
         ws.onmessage = function (e) {
-            var receivedMsg = e.data;
-            alert("Message received: " + receivedMsg);
+            var receivedMsg = JSON.parse(e.data);
+            alert("Message received: " + receivedMsg.data);
+            document.getElementById("parsedFromServer").innerHTML = "Text sent: " + receivedMsg.data + ", length: " + receivedMsg.cnt;
         }
         ws.onerror = function (e) {
             alert("Unable to connect");
