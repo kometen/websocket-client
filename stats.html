@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+    <!-- Don't forget the viewport meta tag for responsive sites! -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <!-- Include Purecss -->
+    <!-- <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css"> -->
+    <link rel="stylesheet" type="text/css" href="pure-min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Purecss</title>
+</head>
+<body>
+    <div class="pure-menu pure-menu-horizontal custom-wrapper">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Leagues</a></li>
+            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Sports</a></li>
+            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Login</a></li>
+        </ul>
+    </div>
+    <div>
+        <input type="text" id="loginNameField" size="20" placeholder="login name">
+        <button class="pure-button button-small pure-button-disabled" onclick="connect()" id="connectButton">Connect</button>
+        <button class="pure-button button-small pure-button-disabled" onclick="disconnect()" id="disconnectButton">Disconnect</button>
+    </div>
+    <div>
+        <input type="text" id="messageField" size="20" placeholder="message">
+        <button class="pure-button button-small pure-button-disabled" onclick="sendMessage()" id="messageButton">Send</button>
+    </div>
+    <script type="text/javascript" src="func.js"></script>
+</body>
+</html>
