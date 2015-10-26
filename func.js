@@ -41,8 +41,9 @@ document.getElementById("messageField").addEventListener("keyup", function (e) {
 
 function connect () {
     if (window.WebSocket) {
-        // Let us open a web socket
-        ws = new WebSocket("ws://localhost:9002");
+        // Let us open a web socket.
+        var hname = window.location.hostname;
+        ws = new WebSocket("ws://" + hname + ":9002");
         ws.onopen = function (e) {
             document.getElementById("connectButton").classList.add("pure-button-disabled");
             document.getElementById("disconnectButton").classList.remove("pure-button-disabled");
