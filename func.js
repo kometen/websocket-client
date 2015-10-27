@@ -9,11 +9,11 @@ document.getElementById("loginNameField").addEventListener("keyup", function (e)
     var l = document.getElementById("loginNameField").value;
     // Disable.
     if (l.length === 0) {
-        document.getElementById("connectButton").classList.add("pure-button-disabled");
+        document.getElementById("connectButton").setAttribute("disabled", "disabled");
     }
     // Enable
     if (l.length > 0) {
-        document.getElementById("connectButton").classList.remove("pure-button-disabled");
+        document.getElementById("connectButton").removeAttribute("disabled");
         var key = e.keyCode;
         if (key === 13) {
             document.getElementById("loginNameField").disabled = true;
@@ -27,11 +27,11 @@ document.getElementById("messageField").addEventListener("keyup", function (e) {
     var l = document.getElementById("messageField").value;
     // Disable.
     if (l.length === 0) {
-        document.getElementById("messageButton").classList.add("pure-button-disabled");
+        document.getElementById("messageButton").setAttribute("disabled");
     }
     // Enable
     if (l.length > 0) {
-        document.getElementById("messageButton").classList.remove("pure-button-disabled");
+        document.getElementById("messageButton").removeAttribute("disabled");
         var key = e.keyCode;
         if (key === 13) {
             sendMessage();
@@ -45,8 +45,8 @@ function connect () {
         var hname = window.location.hostname;
         ws = new WebSocket("ws://" + hname + ":9002");
         ws.onopen = function (e) {
-            document.getElementById("connectButton").classList.add("pure-button-disabled");
-            document.getElementById("disconnectButton").classList.remove("pure-button-disabled");
+            document.getElementById("connectButton").setAttribute("disabled", "disabled");
+            document.getElementById("disconnectButton").removeAttribute("disabled");
             var l = document.getElementById("loginNameField").value;
             var msg = {
                 "type": "lgn",
@@ -81,8 +81,8 @@ function disconnect () {
         ws.close();
         document.getElementById("loginNameField").value = "";
         document.getElementById("loginNameField").disabled = false;
-        document.getElementById("connectButton").classList.remove("pure-button-disabled");
-        document.getElementById("disconnectButton").classList.add("pure-button-disabled");
+        document.getElementById("connectButton").removeAttribute("disabled");
+        document.getElementById("disconnectButton").setAttribute("disabled", "disabled");
     } else {
         alert("Websocket unsupported");
     }
