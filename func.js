@@ -4,6 +4,44 @@ var ws = "";
 document.getElementById("loginNameField").focus();
 document.getElementById("loginNameField").select();
 
+// Add eventlistener when the page loads.
+document.addEventListener("DOMContentLoaded", function () {
+    if (window.WebSocket) {
+        // Let us open a web socket.
+        var hname = window.location.hostname;
+        ws = new WebSocket("ws://" + hname + ":9002");
+/*        ws.onopen = function (e) {
+            document.getElementById("connectButton").setAttribute("disabled", "disabled");
+            document.getElementById("disconnectButton").removeAttribute("disabled");
+            var l = document.getElementById("loginNameField").value;
+            var msg = {
+                "type": "lgn",
+                "data": l
+            }
+            msg = JSON.stringify(msg);
+            ws.send(msg);
+        }*/
+        ws.onmessage = function (e) {
+            var receivedMsg = JSON.parse(e.data);
+            alert("Message received: " + receivedMsg.data);
+            document.getElementById("parsedFromServer").innerHTML = "Text sent: " + receivedMsg.data + ", length: " + receivedMsg.cnt;
+        }
+        ws.onerror = function (e) {
+            alert("Unable to connect");
+        }
+        ws.onclose = function (e) {
+            // For safari
+            if (e.code == 1006) {
+                alert("Unable to connect");
+            } else {
+                alert("Connection closed");
+            }
+        }
+    } else {
+        alert("Websocket unsupported");
+    }
+});
+
 // Add eventlistener to loginNameField field.
 document.getElementById("loginNameField").addEventListener("keyup", function (e) {
     var l = document.getElementById("loginNameField").value;
@@ -40,40 +78,15 @@ document.getElementById("messageField").addEventListener("keyup", function (e) {
 });
 
 function connect () {
-    if (window.WebSocket) {
-        // Let us open a web socket.
-        var hname = window.location.hostname;
-        ws = new WebSocket("ws://" + hname + ":9002");
-        ws.onopen = function (e) {
-            document.getElementById("connectButton").setAttribute("disabled", "disabled");
-            document.getElementById("disconnectButton").removeAttribute("disabled");
-            var l = document.getElementById("loginNameField").value;
-            var msg = {
-                "type": "lgn",
-                "data": l
-            }
-            msg = JSON.stringify(msg);
-            ws.send(msg);
-        }
-        ws.onmessage = function (e) {
-            var receivedMsg = JSON.parse(e.data);
-            alert("Message received: " + receivedMsg.data);
-            document.getElementById("parsedFromServer").innerHTML = "Text sent: " + receivedMsg.data + ", length: " + receivedMsg.cnt;
-        }
-        ws.onerror = function (e) {
-            alert("Unable to connect");
-        }
-        ws.onclose = function (e) {
-            // For safari
-            if (e.code == 1006) {
-                alert("Unable to connect");
-            } else {
-                alert("Connection closed");
-            }
-        }
-    } else {
-        alert("Websocket unsupported");
+    document.getElementById("connectButton").setAttribute("disabled", "disabled");
+    document.getElementById("disconnectButton").removeAttribute("disabled");
+    var l = document.getElementById("loginNameField").value;
+    var msg = {
+        "type": "lgn",
+        "data": l
     }
+    msg = JSON.stringify(msg);
+    ws.send(msg);
 }
 
 function disconnect () {
