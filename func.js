@@ -1,8 +1,6 @@
 // http://www.tutorialspoint.com/html5/html5_websocket.htm
 
 var ws = "";
-document.getElementById("loginNameField").focus();
-document.getElementById("loginNameField").select();
 
 // Add eventlistener when the page loads.
 document.addEventListener("DOMContentLoaded", function () {
@@ -10,17 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Let us open a web socket.
         var hname = window.location.hostname;
         ws = new WebSocket("ws://" + hname + ":9002");
-/*        ws.onopen = function (e) {
-            document.getElementById("connectButton").setAttribute("disabled", "disabled");
-            document.getElementById("disconnectButton").removeAttribute("disabled");
-            var l = document.getElementById("loginNameField").value;
-            var msg = {
-                "type": "lgn",
-                "data": l
-            }
-            msg = JSON.stringify(msg);
-            ws.send(msg);
-        }*/
         ws.onmessage = function (e) {
             var receivedMsg = JSON.parse(e.data);
             alert("Message received: " + receivedMsg.data);
@@ -65,7 +52,7 @@ document.getElementById("messageField").addEventListener("keyup", function (e) {
     var l = document.getElementById("messageField").value;
     // Disable.
     if (l.length === 0) {
-        document.getElementById("messageButton").setAttribute("disabled");
+        document.getElementById("messageButton").setAttribute("disabled", "disabled");
     }
     // Enable
     if (l.length > 0) {
