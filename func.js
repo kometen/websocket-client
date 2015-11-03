@@ -5,6 +5,8 @@ var ws = "";
 // Add eventlistener when the page loads.
 document.addEventListener("DOMContentLoaded", function () {
     if (window.WebSocket) {
+        // Disable message field.
+        document.getElementById("messageField").setAttribute("disabled", "disabled");
         // Let us open a web socket.
         var hname = window.location.hostname;
         ws = new WebSocket("ws://" + hname + ":9002");
@@ -67,6 +69,7 @@ document.getElementById("messageField").addEventListener("keyup", function (e) {
 function connect () {
     document.getElementById("connectButton").setAttribute("disabled", "disabled");
     document.getElementById("disconnectButton").removeAttribute("disabled");
+    document.getElementById("messageField").removeAttribute("disabled");
     var l = document.getElementById("loginNameField").value;
     var msg = {
         "type": "lgn",
