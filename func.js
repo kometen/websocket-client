@@ -10,10 +10,20 @@ document.addEventListener("DOMContentLoaded", function () {
         // Let us open a web socket.
         var hname = window.location.hostname;
         ws = new WebSocket("ws://" + hname + ":9002");
+        ws.onopen = function () {
+            var m = "la_liga";
+            var msg = {
+                "type": "request",
+                "data": m
+            }
+            msg = JSON.stringify(msg);
+            ws.send(msg);
+        }
         ws.onmessage = function (e) {
             var receivedMsg = JSON.parse(e.data);
             alert("Message received: " + receivedMsg.data);
-            document.getElementById("parsedFromServer").innerHTML = "Text sent: " + receivedMsg.data + ", length: " + receivedMsg.cnt;
+            console.log(receivedMsg.teams);
+            document.getElementById("leagues").innerHTML = "Text sent: " + receivedMsg.teams;
         }
         ws.onerror = function (e) {
             alert("Unable to connect");
