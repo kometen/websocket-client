@@ -21,9 +21,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         ws.onmessage = function (e) {
             var receivedMsg = JSON.parse(e.data);
-            alert("Message received: " + receivedMsg.data);
-            console.log(receivedMsg.teams);
-            document.getElementById("leagues").innerHTML = "Team: " + receivedMsg.teams[0].team + ", points: " + receivedMsg.teams[0].points;
+
+            if (receivedMsg.type == "request") {
+                alert("Message received: " + receivedMsg.data);
+                console.log(receivedMsg.teams);
+                document.getElementById("leagues").innerHTML = "Team: " + receivedMsg.teams[0].team + ", points: " + receivedMsg.teams[0].points;
+            }
+
+            if (receivedMsg.type == "msg") {
+                alert("Message received: " + receivedMsg.data);
+                console.log(receivedMsg.data);
+                document.getElementById("leagues").innerHTML = "Data: " + receivedMsg.data + ", length: " + receivedMsg.cnt;
+            }
         }
         ws.onerror = function (e) {
             alert("Unable to connect");
