@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var receivedMsg = JSON.parse(e.data);
             alert("Message received: " + receivedMsg.data);
             console.log(receivedMsg.teams);
-            document.getElementById("leagues").innerHTML = "Text sent: " + receivedMsg.teams;
+            document.getElementById("leagues").innerHTML = "Team: " + receivedMsg.teams[0].team + ", points: " + receivedMsg.teams[0].points;
         }
         ws.onerror = function (e) {
             alert("Unable to connect");
