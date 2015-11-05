@@ -23,9 +23,17 @@ document.addEventListener("DOMContentLoaded", function () {
             var receivedMsg = JSON.parse(e.data);
 
             if (receivedMsg.type == "request") {
-                alert("Message received: " + receivedMsg.data);
-                console.log(receivedMsg.teams);
-                document.getElementById("leagues").innerHTML = "Team: " + receivedMsg.teams[0].team + ", points: " + receivedMsg.teams[0].points;
+                alert("Message received: " + receivedMsg.teams[0].team);
+                var div = document.getElementById("leagues");
+                div.innerHTML = "<ul>";
+                receivedMsg.teams.sort(function (a, b) {
+                    return b.points - a.points;
+                });
+                receivedMsg.teams.forEach(function (element, index, array) {
+                    console.log("team: " + element.team + ", points: " + element.points);
+                    div.innerHTML = div.innerHTML + "<li>Team: " + element.team + ", points: " + element.points + "</li>";
+                });
+                div.innerHTML = div.innerHTML + "</ul>";
             }
 
             if (receivedMsg.type == "msg") {
