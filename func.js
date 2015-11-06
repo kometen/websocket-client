@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     return b.points - a.points;
                 });
                 receivedMsg.teams.forEach(function (element, index, array) {
-                    console.log("team: " + element + ", points: " + element.points);
+                    console.log("team: " + element.team + ", points: " + element.points);
                     div.innerHTML = div.innerHTML + "<li>Team: " + element.team + ", points: " + element.points + "</li>";
                 });
                 div.innerHTML = div.innerHTML + "</ul>";
