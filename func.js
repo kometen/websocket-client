@@ -22,15 +22,16 @@ document.addEventListener("DOMContentLoaded", function () {
         ws.onmessage = function (e) {
             var receivedMsg = JSON.parse(e.data);
 
-            if (receivedMsg.type == "request") {
-                alert("Message received: " + receivedMsg.teams[0].team);
+            if (receivedMsg.type == "table") {
+                console.log(receivedMsg);
+                console.log(receivedMsg.teams[0].points);
                 var div = document.getElementById("leagues");
                 div.innerHTML = "<ul>";
                 receivedMsg.teams.sort(function (a, b) {
                     return b.points - a.points;
                 });
                 receivedMsg.teams.forEach(function (element, index, array) {
-                    console.log("team: " + element.team + ", points: " + element.points);
+                    console.log("team: " + element + ", points: " + element.points);
                     div.innerHTML = div.innerHTML + "<li>Team: " + element.team + ", points: " + element.points + "</li>";
                 });
                 div.innerHTML = div.innerHTML + "</ul>";
@@ -121,7 +122,7 @@ function disconnect () {
 function sendMessage () {
     var m = document.getElementById("messageField").value;
     var msg = {
-        "type": "msg",
+        "type": "update",
         "data": m
     }
     msg = JSON.stringify(msg);
