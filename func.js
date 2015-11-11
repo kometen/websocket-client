@@ -6,7 +6,7 @@ var ws = "";
 document.addEventListener("DOMContentLoaded", function () {
     if (window.WebSocket) {
         // Disable message field.
-        document.getElementById("messageField").setAttribute("disabled", "disabled");
+        document.getElementById("pointsField").setAttribute("disabled", "disabled");
         // Let us open a web socket.
         var hname = window.location.hostname;
         ws = new WebSocket("ws://" + hname + ":9002");
@@ -78,8 +78,8 @@ document.getElementById("loginNameField").addEventListener("keyup", function (e)
 });
 
 // Add eventlistener to message field.
-document.getElementById("messageField").addEventListener("keyup", function (e) {
-    var l = document.getElementById("messageField").value;
+document.getElementById("pointsField").addEventListener("keyup", function (e) {
+    var l = document.getElementById("pointsField").value;
     // Disable.
     if (l.length === 0) {
         document.getElementById("messageButton").setAttribute("disabled", "disabled");
@@ -97,7 +97,7 @@ document.getElementById("messageField").addEventListener("keyup", function (e) {
 function connect () {
     document.getElementById("connectButton").setAttribute("disabled", "disabled");
     document.getElementById("disconnectButton").removeAttribute("disabled");
-    document.getElementById("messageField").removeAttribute("disabled");
+    document.getElementById("pointsField").removeAttribute("disabled");
     var l = document.getElementById("loginNameField").value;
     var msg = {
         "type": "lgn",
@@ -120,10 +120,12 @@ function disconnect () {
 }
 
 function sendMessage () {
-    var m = document.getElementById("messageField").value;
+    var t = document.getElementById("teamField").value;
+    var p = document.getElementById("pointsField").value;
     var msg = {
         "type": "update",
-        "data": m
+        "team": t,
+        "points": p
     }
     msg = JSON.stringify(msg);
     ws.send(msg);
