@@ -24,17 +24,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (receivedMsg.type == "table") {
                 console.log(receivedMsg);
-                console.log(receivedMsg.teams[0].points);
                 var div = document.getElementById("leagues");
-                div.innerHTML = "<ul>";
+                div.innerHTML = "<table id='standings'><tr><th class='right_align'>#</th><th>Team</th><th>Points</th></tr></table>";
+                var table = document.getElementById("standings");
                 receivedMsg.teams.sort(function (a, b) {
                     return b.points - a.points;
                 });
                 receivedMsg.teams.forEach(function (element, index, array) {
                     console.log("team: " + element.team + ", points: " + element.points);
-                    div.innerHTML = div.innerHTML + "<li>Team: " + element.team + ", points: " + element.points + "</li>";
+                    var row = table.insertRow(-1);
+                    var cell_standing = row.insertCell(0);
+                    var cell_team = row.insertCell(1);
+                    var cell_points = row.insertCell(2);
+                    cell_standing.className = "right_align";
+                    cell_standing.innerHTML = index + 1;
+                    cell_team.innerHTML = element.team;
+                    cell_points.className = "right_align";
+                    cell_points.innerHTML = element.points;
                 });
-                div.innerHTML = div.innerHTML + "</ul>";
             }
 
             if (receivedMsg.type == "msg") {
