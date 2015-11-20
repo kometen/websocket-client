@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (receivedMsg.type == "table") {
                 console.log(receivedMsg);
-                var div = document.getElementById("leagues");
+                var div = document.getElementById("view1");
                 div.innerHTML = "<table id='standings'><tr><th class='right_align'>#</th><th>Team</th><th>Points</th></tr></table>";
                 var table = document.getElementById("standings");
                 receivedMsg.teams.sort(function (a, b) {
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (receivedMsg.type == "msg") {
                 alert("Message received: " + receivedMsg.data);
                 console.log(receivedMsg.data);
-                document.getElementById("leagues").innerHTML = "Data: " + receivedMsg.data + ", length: " + receivedMsg.cnt;
+                document.getElementById("view1").innerHTML = "Data: " + receivedMsg.data + ", length: " + receivedMsg.cnt;
             }
         }
         ws.onerror = function (e) {
