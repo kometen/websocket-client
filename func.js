@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var receivedMsg = JSON.parse(e.data);
 
             if (receivedMsg.type == "table") {
-                console.log(receivedMsg);
+                console.log("table: " + receivedMsg);
                 var div = document.getElementById("view1");
                 div.innerHTML = "<table id='standings'><tr><th class='right_align'>#</th><th>Team</th><th>Points</th></tr></table>";
                 var table = document.getElementById("standings");
@@ -31,8 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     return b.points - a.points;
                 });
                 receivedMsg.teams.forEach(function (element, index, array) {
-                    console.log("team: " + element.team + ", points: " + element.points);
-                    var row = table.insertRow(-1);
+//                    console.log("team: " + element.team + ", points: " + element.points);
+                    var row = table.insertRow(-1); // Last row.
                     var cell_standing = row.insertCell(0);
                     var cell_team = row.insertCell(1);
                     var cell_points = row.insertCell(2);
@@ -41,6 +41,81 @@ document.addEventListener("DOMContentLoaded", function () {
                     cell_team.innerHTML = element.team;
                     cell_points.className = "right_align";
                     cell_points.innerHTML = element.points;
+                });
+            }
+
+            if (receivedMsg.type == "matches") {
+                console.log("matches: " + receivedMsg);
+                var div = document.getElementById("view2");
+                div.innerHTML = "<table id='matches'></table>";
+                var table = document.getElementById("matches");
+                receivedMsg.teams.forEach(function (element, index, array) {
+
+                    var row_1 = table.insertRow(-1);
+                    var cell_date = row_1.insertCell(0);
+                    var cell_score = row_1.insertCell(1);
+                    var cell_add_goal = row_1.insertCell(2);
+                    cell_date.innerHTML = moment(element.match_start_at).format("DD.M.YY HH:mm");
+                    cell_score.innerHTML = "<b>Score</b>";
+                    cell_add_goal.innerHTML = "<b>Goal</b>";
+
+                    var row_2 = table.insertRow(-1);
+                    var cell_hometeam = row_2.insertCell(0);
+                    var cell_hometeam_goal = row_2.insertCell(1);
+                    var cell_hometeam_addbutton = row_2.insertCell(2);
+                    cell_hometeam.innerHTML = element.hometeam;
+                    cell_hometeam_goal.innerHTML = element.hometeam_score;
+                    cell_hometeam_goal.className = "right_align";
+                    cell_hometeam_addbutton.innerHTML = "+";
+                    cell_hometeam_addbutton.id = "hometeam_" + element.id;
+                    cell_hometeam_addbutton.className = "center_align btn";
+
+                    var row_3 = table.insertRow(-1);
+                    var cell_awayteam = row_3.insertCell(0);
+                    var cell_awayteam_goal = row_3.insertCell(1);
+                    var cell_awayteam_addbutton = row_3.insertCell(2);
+                    cell_awayteam.innerHTML = element.awayteam;
+                    cell_awayteam_goal.innerHTML = element.awayteam_score;
+                    cell_awayteam_goal.className = "right_align";
+                    cell_awayteam_addbutton.innerHTML = "+";
+                    cell_awayteam_addbutton.id = "awayteam_" + element.id;
+                    cell_awayteam_addbutton.className = "center_align btn";
+
+                    // Add eventlistener() to add goals to a team.
+                    document.getElementById("hometeam_" + element.id).addEventListener("click", function () {
+                        var d = new Date();
+                        var msg = {
+                            "type": "goal",
+                            "id": element.id,
+                            "scoringteam": "hometeam",
+                            "scoringgoal": "homegoal",
+                            "hometeam": element.hometeam,
+                            "awayteam": element.awayteam,
+                            "hometeam_score": element.hometeam_score,
+                            "awayteam_score": element.awayteam_score,
+                            "goal": 1,
+                            "scored_at": d
+                        }
+                        msg = JSON.stringify(msg);
+                        ws.send(msg);
+                    });
+                    document.getElementById("awayteam_" + element.id).addEventListener("click", function () {
+                        var d = new Date();
+                        var msg = {
+                            "type": "goal",
+                            "id": element.id,
+                            "scoringteam": "awayteam",
+                            "scoringgoal": "awaygoal",
+                            "hometeam": element.hometeam,
+                            "awayteam": element.awayteam,
+                            "hometeam_score": element.hometeam_score,
+                            "awayteam_score": element.awayteam_score,
+                            "goal": 1,
+                            "scored_at": d
+                        }
+                        msg = JSON.stringify(msg);
+                        ws.send(msg);
+                    });
                 });
             }
 
