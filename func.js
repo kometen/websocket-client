@@ -87,6 +87,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         var msg = {
                             "type": "goal",
                             "id": element.id,
+                            "league": element.league,
+                            "season": element.season,
                             "scoringteam": "hometeam",
                             "scoringgoal": "homegoal",
                             "hometeam": element.hometeam,
@@ -104,6 +106,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         var msg = {
                             "type": "goal",
                             "id": element.id,
+                            "league": element.league,
+                            "season": element.season,
                             "scoringteam": "awayteam",
                             "scoringgoal": "awaygoal",
                             "hometeam": element.hometeam,
