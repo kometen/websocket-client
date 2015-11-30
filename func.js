@@ -146,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     cell_awayteam.innerHTML = element.awayteam;
                     cell_startbutton.innerHTML = "Start";
                     cell_startbutton.id = "hometeam_" + element.id;
+                    cell_startbutton.className = "btn";
 
                     // Add eventlistener() to add goals to a team.
                     document.getElementById("hometeam_" + element.id).addEventListener("click", function () {
