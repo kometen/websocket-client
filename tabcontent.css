@@ -11,32 +11,32 @@ ul.tabs
     border-bottom:none;
     border-radius: 2px 2px 0 0;
 }
-        
+
 ul.tabs li
 {
     display: inline;
     margin: 0;
-    margin-right: 2px;/*distance between tabs*/
+    margin-right: 1px;/*distance between tabs*/
     font: normal 12px Verdana;
 }
-        
+
 ul.tabs li a
 {
     text-decoration: none;
     position: relative;
-    padding: 8px 22px;
+    padding: 8px 8px;
     color: #000;
     border-radius: 3px 3px 0 0;
     outline:none;
 }
-  
-        
+
+
 ul.tabs li a:hover
 {
     text-decoration: underline;
     color: #000;
 }
-        
+
 ul.tabs li.selected a
 {
     position: relative;
@@ -47,8 +47,8 @@ ul.tabs li.selected a
     border-bottom: 1px solid #FFF;
     color: #000;
 }
-        
-        
+
+
 ul.tabs li.selected a:hover, ul.tabs li.selected a:hover
 {
     text-decoration: none;

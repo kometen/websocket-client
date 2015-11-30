@@ -123,6 +123,47 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             }
 
+            if (receivedMsg.type == "coming_matches") {
+                var div = document.getElementById("view3");
+                div.innerHTML = "<table id='coming_matches'></table>";
+                var table = document.getElementById("coming_matches");
+
+                receivedMsg.teams.forEach(function (element, index, array) {
+
+                    var row_1 = table.insertRow(-1);
+                    var cell_date = row_1.insertCell(0);
+                    var cell_empty_1 = row_1.insertCell(1);
+                    var cell_empty_2 = row_1.insertCell(2);
+
+                    cell_date.innerHTML = "<b>" + moment(element.match_start_at).format("DD.M.YY HH:mm") + "</b>";
+
+                    var row_2 = table.insertRow(-1);
+                    var cell_hometeam = row_2.insertCell(0);
+                    var cell_awayteam = row_2.insertCell(1);
+                    var cell_startbutton = row_2.insertCell(2);
+
+                    cell_hometeam.innerHTML = element.hometeam;
+                    cell_awayteam.innerHTML = element.awayteam;
+                    cell_startbutton.innerHTML = "Start";
+                    cell_startbutton.id = "hometeam_" + element.id;
+
+                    // Add eventlistener() to add goals to a team.
+                    document.getElementById("hometeam_" + element.id).addEventListener("click", function () {
+                        var d = new Date();
+                        var msg = {
+                            "type": "start_match",
+                            "id": element.id,
+                            "league": element.league,
+                            "season": element.season,
+                            "hometeam": element.hometeam,
+                            "awayteam": element.awayteam
+                        }
+                        msg = JSON.stringify(msg);
+                        ws.send(msg);
+                    });
+                });
+            }
+
             if (receivedMsg.type == "msg") {
                 alert("Message received: " + receivedMsg.data);
                 console.log(receivedMsg.data);
