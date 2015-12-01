@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (receivedMsg.type == "table") {
                 console.log("table: " + receivedMsg);
                 var div = document.getElementById("view1");
-                div.innerHTML = "<table id='standings'><tr><th class='right_align'>#</th><th>Team</th><th>Points</th></tr></table>";
+                div.innerHTML = "<table id='standings'><tr><th class='right_align'>#</th><th>Team</th><th>P</th></tr></table>";
                 var table = document.getElementById("standings");
                 receivedMsg.teams.sort(function (a, b) {
                     return b.points - a.points;
@@ -132,10 +132,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     var row_1 = table.insertRow(-1);
                     var cell_date = row_1.insertCell(0);
-                    var cell_empty_1 = row_1.insertCell(1);
-                    var cell_empty_2 = row_1.insertCell(2);
+                    var cell_1 = row_1.insertCell(1);
+                    var cell_2 = row_1.insertCell(2);
 
-                    cell_date.innerHTML = "<b>" + moment(element.match_start_at).format("DD.M.YY HH:mm") + "</b>";
+                    cell_date.innerHTML = moment(element.match_start_at).format("DD.M.YY HH:mm");
+                    cell_1.innerHTML = "<b>Awayteam</b>";
+                    cell_2.innerHTML = "<b>Game</b>";
+
 
                     var row_2 = table.insertRow(-1);
                     var cell_hometeam = row_2.insertCell(0);

@@ -56,7 +56,7 @@ ul.tabs li.selected a:hover, ul.tabs li.selected a:hover
 
 div.tabcontents
 {
-    border: 1px solid #CCC; padding: 30px;
+    border: 1px solid #CCC; padding: 10px;
     border-top-color:#AAA;
     background-color:#FFF;
     border-radius: 0 0 2px 2px;
