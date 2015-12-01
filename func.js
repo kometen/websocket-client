@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (receivedMsg.type == "table") {
                 console.log("table: " + receivedMsg);
                 var div = document.getElementById("view1");
-                div.innerHTML = "<table id='standings'><tr><th class='right_align'>#</th><th>Team</th><th>P</th></tr></table>";
+                div.innerHTML = "<table id='standings'><tr><th class='right_align'>#</th><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>Goal</th></tr></table>";
                 var table = document.getElementById("standings");
                 receivedMsg.teams.sort(function (a, b) {
                     return b.points - a.points;
@@ -36,11 +36,23 @@ document.addEventListener("DOMContentLoaded", function () {
                     var cell_standing = row.insertCell(0);
                     var cell_team = row.insertCell(1);
                     var cell_points = row.insertCell(2);
+                    var cell_won = row.insertCell(3);
+                    var cell_draw = row.insertCell(4);
+                    var cell_lost = row.insertCell(5);
+                    var cell_goals = row.insertCell(6);
                     cell_standing.className = "right_align";
                     cell_standing.innerHTML = index + 1;
                     cell_team.innerHTML = element.team;
                     cell_points.className = "right_align";
                     cell_points.innerHTML = element.points;
+                    cell_won.innerHTML = element.won;
+                    cell_won.className = "right_align";
+                    cell_draw.innerHTML = element.draw;
+                    cell_draw.className = "right_align";
+                    cell_lost.innerHTML = element.lost;
+                    cell_lost.className = "right_align";
+                    cell_goals.innerHTML = element.goals_for.toString() + "-" + element.goals_against.toString();
+                    cell_goals.className = "right_align";
                 });
             }
 
