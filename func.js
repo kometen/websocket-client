@@ -64,14 +64,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 receivedMsg.teams.forEach(function (element, index, array) {
 
                     var row_1 = table.insertRow(-1);
+
                     var cell_date = row_1.insertCell(0);
                     var cell_score = row_1.insertCell(1);
                     var cell_add_goal = row_1.insertCell(2);
+                    var cell_end_game_button = row_1.insertCell(3);
                     cell_date.innerHTML = moment(element.match_start_at).format("DD.M.YY HH:mm");
                     cell_score.innerHTML = "<b>Score</b>";
-                    cell_add_goal.innerHTML = "<b>Goal</b>";
+                    cell_add_goal.innerHTML = "<b><div class='right_pad'>Goal</div></b>";
+                    cell_end_game_button.innerHTML = "<button class='btn'>End match</button>";
+                    cell_end_game_button.id = "end_match_button_" + element.id;
 
                     var row_2 = table.insertRow(-1);
+
                     var cell_hometeam = row_2.insertCell(0);
                     var cell_hometeam_goal = row_2.insertCell(1);
                     var cell_hometeam_addbutton = row_2.insertCell(2);
@@ -79,10 +84,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     cell_hometeam_goal.innerHTML = element.hometeam_score;
                     cell_hometeam_goal.className = "right_align";
                     cell_hometeam_addbutton.innerHTML = "+";
-                    cell_hometeam_addbutton.id = "hometeam_" + element.id;
-                    cell_hometeam_addbutton.className = "center_align btn";
+                    cell_hometeam_addbutton.id = "add_goal_hometeam_" + element.id;
+                    cell_hometeam_addbutton.className = "center_align plusbtn";
 
                     var row_3 = table.insertRow(-1);
+
                     var cell_awayteam = row_3.insertCell(0);
                     var cell_awayteam_goal = row_3.insertCell(1);
                     var cell_awayteam_addbutton = row_3.insertCell(2);
@@ -90,11 +96,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     cell_awayteam_goal.innerHTML = element.awayteam_score;
                     cell_awayteam_goal.className = "right_align";
                     cell_awayteam_addbutton.innerHTML = "+";
-                    cell_awayteam_addbutton.id = "awayteam_" + element.id;
-                    cell_awayteam_addbutton.className = "center_align btn";
+                    cell_awayteam_addbutton.id = "add_goal_awayteam_" + element.id;
+                    cell_awayteam_addbutton.className = "center_align plusbtn";
 
                     // Add eventlistener() to add goals to a team.
-                    document.getElementById("hometeam_" + element.id).addEventListener("click", function () {
+                    document.getElementById("add_goal_hometeam_" + element.id).addEventListener("click", function () {
                         var d = new Date();
                         var msg = {
                             "type": "goal",
@@ -113,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         msg = JSON.stringify(msg);
                         ws.send(msg);
                     });
-                    document.getElementById("awayteam_" + element.id).addEventListener("click", function () {
+                    document.getElementById("add_goal_awayteam_" + element.id).addEventListener("click", function () {
                         var d = new Date();
                         var msg = {
                             "type": "goal",
@@ -128,6 +134,22 @@ document.addEventListener("DOMContentLoaded", function () {
                             "awayteam_score": element.awayteam_score,
                             "goal": 1,
                             "scored_at": d
+                        }
+                        msg = JSON.stringify(msg);
+                        ws.send(msg);
+                    });
+
+                    // Add eventlistener() to to end the match.
+                    document.getElementById("end_match_button_" + element.id).addEventListener("click", function () {
+                        var d = new Date();
+                        var msg = {
+                            "type": "end_match",
+                            "id": element.id,
+                            "league": element.league,
+                            "season": element.season,
+                            "hometeam": element.hometeam,
+                            "awayteam": element.awayteam,
+                            "ended_at": d
                         }
                         msg = JSON.stringify(msg);
                         ws.send(msg);
@@ -149,22 +171,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     cell_date.innerHTML = moment(element.match_start_at).format("DD.M.YY HH:mm");
                     cell_1.innerHTML = "<b>Awayteam</b>";
-                    cell_2.innerHTML = "<b>Game</b>";
+                    cell_2.innerHTML = "<button class='btn'>Start</button>";
+                    cell_2.id = "start_match_" + element.id;
 
 
                     var row_2 = table.insertRow(-1);
                     var cell_hometeam = row_2.insertCell(0);
                     var cell_awayteam = row_2.insertCell(1);
-                    var cell_startbutton = row_2.insertCell(2);
 
                     cell_hometeam.innerHTML = element.hometeam;
                     cell_awayteam.innerHTML = element.awayteam;
-                    cell_startbutton.innerHTML = "Start";
-                    cell_startbutton.id = "hometeam_" + element.id;
-                    cell_startbutton.className = "btn";
 
-                    // Add eventlistener() to add goals to a team.
-                    document.getElementById("hometeam_" + element.id).addEventListener("click", function () {
+                    // Add eventlistener() to start a match.
+                    document.getElementById("start_match_" + element.id).addEventListener("click", function () {
                         var d = new Date();
                         var msg = {
                             "type": "start_match",
