@@ -36,6 +36,7 @@ td, th {
     -moz-border-radius: 5px;
     padding: 2px 8px 2px 8px;
     background: white;
+    outline: none;
 }
 
 .btn:hover {
