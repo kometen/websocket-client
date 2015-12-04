@@ -14,6 +14,10 @@ td, th {
     padding-right: 2px;
 }
 
+tr:nth-child(even) {
+    background-color: #DDDDE3;
+}
+
 .shift_color:nth-child(even) {
     background-color: #DDDDE3;
 }

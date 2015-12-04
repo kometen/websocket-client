@@ -11,8 +11,6 @@ window.season = "";
 // Add eventlistener when the page loads.
 document.addEventListener("DOMContentLoaded", function () {
     if (window.WebSocket) {
-        // Disable message field.
-        document.getElementById("pointsField").setAttribute("disabled", "disabled");
         // Let us open a web socket.
         var hname = window.location.hostname;
         ws = new WebSocket("ws://" + hname + ":9002");
@@ -52,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         var cell_lost = row.insertCell(5);
                         var cell_goals = row.insertCell(6);
                         var cell_points = row.insertCell(7);
-                        
+
                         cell_standing.className = "right_align";
                         cell_standing.innerHTML = index + 1;
                         cell_team.innerHTML = element.team;
@@ -74,11 +72,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (receivedMsg.type == "matches") {
-                var div = document.getElementById("view2");
-                div.innerHTML = "<table id='matches'></table>";
-                var table = document.getElementById("matches");
-
                 if (Array.isArray(receivedMsg.teams)) {
+                    var div = document.getElementById("view2");
+                    div.innerHTML = "<table id='matches'></table>";
+                    var table = document.getElementById("matches");
+
                     receivedMsg.teams.forEach(function (element, index, array) {
 
                         var row_1 = table.insertRow(-1);
@@ -275,27 +273,9 @@ document.getElementById("loginNameField").addEventListener("keyup", function (e)
     }
 });
 
-// Add eventlistener to message field.
-document.getElementById("pointsField").addEventListener("keyup", function (e) {
-    var l = document.getElementById("pointsField").value;
-    // Disable.
-    if (l.length === 0) {
-        document.getElementById("messageButton").setAttribute("disabled", "disabled");
-    }
-    // Enable
-    if (l.length > 0) {
-        document.getElementById("messageButton").removeAttribute("disabled");
-        var key = e.keyCode;
-        if (key === 13) {
-            sendMessage();
-        }
-    }
-});
-
 function connect () {
     document.getElementById("connectButton").setAttribute("disabled", "disabled");
     document.getElementById("disconnectButton").removeAttribute("disabled");
-    document.getElementById("pointsField").removeAttribute("disabled");
     var l = document.getElementById("loginNameField").value;
     var msg = {
         "type": "lgn",
@@ -315,18 +295,6 @@ function disconnect () {
     } else {
         alert("Websocket unsupported");
     }
-}
-
-function sendMessage () {
-    var t = document.getElementById("teamField").value;
-    var p = document.getElementById("pointsField").value;
-    var msg = {
-        "type": "update",
-        "team": t,
-        "points": p
-    }
-    msg = JSON.stringify(msg);
-    ws.send(msg);
 }
 
 function testWebsocket () {
