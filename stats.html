@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="tabcontent.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="pikaday.min.css">
     <title>Sioux</title>
 </head>
 <body>
@@ -30,10 +31,16 @@
                 <button onclick="connect()" id="connectButton">Connect</button>
                 <button onclick="disconnect()" id="disconnectButton" disabled>Disconnect</button>
             </div>
+            <div>
+                <button onclick="getMatchesWithoutDate()" class="btn" id="gamesWithoutDateButton">Fetch</button>
+                matches with unassigned dates.
+                <div id="matchesWithoutDate"></div>
+            </div>
         </div>
     </div>
     <script type="text/javascript" src="func.js"></script>
     <script type="text/javascript" src="tabcontent.js"></script>
     <script type="text/javascript" src="moment.min.js"></script>
+    <script type="text/javascript" src="pikaday.min.js"></script>
 </body>
 </html>

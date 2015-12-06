@@ -14,11 +14,15 @@ td, th {
     padding-right: 2px;
 }
 
-tr:nth-child(even) {
+.shift_color:nth-child(even) {
     background-color: #DDDDE3;
 }
 
-.shift_color:nth-child(even) {
+.first_second_four:nth-child(4n+1) {
+    background-color: #DDDDE3;
+}
+
+.first_second_four:nth-child(4n+2) {
     background-color: #DDDDE3;
 }
 

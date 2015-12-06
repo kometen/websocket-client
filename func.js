@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
             var receivedMsg = JSON.parse(e.data);
 
             if (receivedMsg.type == "table") {
-                console.log("table: " + receivedMsg);
                 var div = document.getElementById("view1");
                 div.innerHTML = "<table id='standings'><tr><th class='right_align'>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goal</th><th>P</th></tr></table>";
                 var table = document.getElementById("standings");
@@ -37,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (Array.isArray(receivedMsg.teams)) {
                     receivedMsg.teams.forEach(function (element, index, array) {
-                        //console.log("league: " + element.league + ", season: " + element.season);
                         window.league = element.league;
                         window.season = element.season;
 
@@ -50,6 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         var cell_lost = row.insertCell(5);
                         var cell_goals = row.insertCell(6);
                         var cell_points = row.insertCell(7);
+
+                        row.className = "shift_color";
 
                         cell_standing.className = "right_align";
                         cell_standing.innerHTML = index + 1;
@@ -233,9 +233,61 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
 
+            if (receivedMsg.type == "matches_without_startdate") {
+                var div = document.getElementById("matchesWithoutDate");
+
+                // If it's an array, ie. has data.
+                if (Array.isArray(receivedMsg.teams)) {
+                    div.innerHTML = "<table id='matches_without_startdate'></table>";
+                    var table = document.getElementById("matches_without_startdate");
+
+                    receivedMsg.teams.forEach(function (element, index, array) {
+
+                        var row_1 = table.insertRow(-1);
+                        var cell_hometeam = row_1.insertCell(0);
+                        var cell_date_field = row_1.insertCell(1);
+
+                        var row_2 = table.insertRow(-1);
+                        var cell_awayteam = row_2.insertCell(0);
+                        var cell_set_date_button = row_2.insertCell(1);
+
+                        row_1.className = "first_second_four";
+                        row_2.className = "first_second_four";
+
+                        cell_hometeam.innerHTML = element.hometeam;
+                        cell_date_field.innerHTML = "<input type='text' size='18' id='datepicker_" + element.id + "'>";
+                        cell_awayteam.innerHTML = element.awayteam;
+                        cell_set_date_button.innerHTML = "<button class='btn'>Set match date</button>";
+                        cell_set_date_button.id = "set_match_date_" + element.id;
+
+                        // Add Pikaday datepicker to input type text.
+                        var picker = new Pikaday({
+                            field: document.getElementById("datepicker_" + element.id),
+                            position: "bottom right",
+                            reposition: false,
+                            use24hour: true
+                        });
+
+                        // Add eventlistener() to start a match.
+                        document.getElementById("set_match_date_" + element.id).addEventListener("click", function () {
+                            var d = new Date();
+                            var msg = {
+                                "type": "set_match_date",
+                                "id": element.id,
+                                "league": element.league,
+                                "season": element.season,
+                                "hometeam": element.hometeam,
+                                "awayteam": element.awayteam
+                            }
+                            msg = JSON.stringify(msg);
+                            ws.send(msg);
+                        });
+                    });
+                }
+            }
+
             if (receivedMsg.type == "msg") {
                 alert("Message received: " + receivedMsg.data);
-                console.log(receivedMsg.data);
                 document.getElementById("view1").innerHTML = "Data: " + receivedMsg.data + ", length: " + receivedMsg.cnt;
             }
         }
@@ -295,6 +347,16 @@ function disconnect () {
     } else {
         alert("Websocket unsupported");
     }
+}
+
+function getMatchesWithoutDate() {
+    var msg = {
+        "type": "fetch_matches_without_startdate",
+        "league": window.league,
+        "season": window.season
+    }
+    msg = JSON.stringify(msg);
+    ws.send(msg);
 }
 
 function testWebsocket () {
