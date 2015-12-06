@@ -72,8 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (receivedMsg.type == "matches") {
+                var div = document.getElementById("view2");
+
                 if (Array.isArray(receivedMsg.teams)) {
-                    var div = document.getElementById("view2");
                     div.innerHTML = "<table id='matches'></table>";
                     var table = document.getElementById("matches");
 
@@ -168,9 +169,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 "ended_at": d
                             }
                             msg = JSON.stringify(msg);
+                            console.log("match end: " + msg);
                             ws.send(msg);
                         });
                     });
+                } else {
+                    div.innerHTML = "No active matches at the moment."
                 }
             }
 
@@ -277,9 +281,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                 "league": element.league,
                                 "season": element.season,
                                 "hometeam": element.hometeam,
-                                "awayteam": element.awayteam
+                                "awayteam": element.awayteam,
+                                "match_start_at": document.getElementById("datepicker_" + element.id).value
                             }
                             msg = JSON.stringify(msg);
+                            console.log('set match date: ' + msg);
                             ws.send(msg);
                         });
                     });
