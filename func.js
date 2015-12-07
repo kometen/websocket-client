@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (receivedMsg.type == "matches") {
-                var div = document.getElementById("view2");
+                var div = document.getElementById("avtiveMatches");
 
                 if (Array.isArray(receivedMsg.teams)) {
                     div.innerHTML = "<table id='matches'></table>";
@@ -178,6 +178,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
 
+            if (receivedMsg.type == "finished_matches") {
+                var div = document.getElementById("finished_matches");
+
+                if (Array.isArray(receivedMsg.teams)) {
+                    div.innerHTML = "<hr>Recent matches<p><table id='finishedMatches'></table>";
+                    var table = document.getElementById("finishedMatches");
+
+                    receivedMsg.teams.forEach(function (element, index, array) {
+                        var row_1 = table.insertRow(-1);
+                        var cell_hometeam = row_1.insertCell(0);
+                        var cell_awayteam = row_1.insertCell(1);
+                        var cell_result = row_1.insertCell(2);
+
+                        row_1.className = "shift_odd_color";
+
+                        cell_hometeam.innerHTML = element.hometeam;
+                        cell_awayteam.innerHTML = element.awayteam;
+                        cell_result.innerHTML = element.hometeam_score.toString() + "-" + element.awayteam_score.toString();
+                    });
+                }
+            }
+
             if (receivedMsg.type == "coming_matches") {
                 var div = document.getElementById("view3");
 
@@ -221,12 +243,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
                     });
                 } else {
-                    div.innerHTML = "<button class='btn' id='fetch_coming_matches'>Click</button> to fetch coming matches."
+                    div.innerHTML = "<button class='btn' id='get_coming_matches'>Click</button> to fetch coming matches."
                     // Add eventlistener() to start a match.
-                    document.getElementById("fetch_coming_matches").addEventListener("click", function () {
+                    document.getElementById("get_coming_matches").addEventListener("click", function () {
                         var d = new Date();
                         var msg = {
-                            "type": "fetch_coming_matches",
+                            "type": "get_coming_matches",
                             "league": window.league,
                             "season": window.season,
                         }
@@ -357,7 +379,7 @@ function disconnect () {
 
 function getMatchesWithoutDate() {
     var msg = {
-        "type": "fetch_matches_without_startdate",
+        "type": "get_matches_without_startdate",
         "league": window.league,
         "season": window.season
     }

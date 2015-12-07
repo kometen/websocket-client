@@ -18,6 +18,10 @@ td, th {
     background-color: #DDDDE3;
 }
 
+.shift_odd_color:nth-child(odd) {
+    background-color: #DDDDE3;
+}
+
 .first_second_four:nth-child(4n+1) {
     background-color: #DDDDE3;
 }
