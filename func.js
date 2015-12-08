@@ -169,7 +169,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 "ended_at": d
                             }
                             msg = JSON.stringify(msg);
-                            console.log("match end: " + msg);
                             ws.send(msg);
                         });
                     });
@@ -252,7 +251,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             "league": window.league,
                             "season": window.season,
                         }
-                        console.log("fetch coming matches from league " + window.league + " and season " + window.season);
                         msg = JSON.stringify(msg);
                         ws.send(msg);
                     });
@@ -307,7 +305,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 "match_start_at": document.getElementById("datepicker_" + element.id).value
                             }
                             msg = JSON.stringify(msg);
-                            console.log('set match date: ' + msg);
                             ws.send(msg);
                         });
                     });
