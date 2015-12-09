@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 var div = document.getElementById("avtiveMatches");
 
                 if (Array.isArray(receivedMsg.teams)) {
-                    div.innerHTML = "<table id='matches'></table>";
+                    div.innerHTML = "<table id='matches' class='t_standing center'></table>";
                     var table = document.getElementById("matches");
 
                     receivedMsg.teams.forEach(function (element, index, array) {
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         var cell_score = row_1.insertCell(1);
                         var cell_add_goal = row_1.insertCell(2);
                         var cell_end_game_button = row_1.insertCell(3);
-                        cell_date.innerHTML = moment(element.match_start_at).format("DD.M.YY HH:mm");
+                        cell_date.innerHTML = moment(element.match_start_at).format("DD. MMM HH:mm");
                         cell_score.innerHTML = "<b>Score</b>";
                         cell_add_goal.innerHTML = "<b><div class='right_pad'>Goal</div></b>";
                         cell_end_game_button.innerHTML = "<button class='btn'>End match</button>";
@@ -213,8 +213,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         var cell_1 = row_1.insertCell(1);
                         var cell_2 = row_1.insertCell(2);
 
-                        cell_date.innerHTML = moment(element.match_start_at).format("DD.M.YY HH:mm");
-                        cell_1.innerHTML = "<b>Awayteam</b>";
+                        cell_date.innerHTML = moment(element.match_start_at).format("DD. MMM HH:mm");
+                        cell_1.innerHTML = "";
                         cell_2.innerHTML = "<button class='btn'>Start</button>";
                         cell_2.id = "start_match_" + element.id;
 
