@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (receivedMsg.type == "table") {
                 var div = document.getElementById("view1");
-                div.innerHTML = "<table id='standings'><tr><th class='right_align'>#</th><th>Team</th><th>M</th><th>W</th><th>D</th><th>L</th><th>Goal</th><th>P</th></tr></table>";
+                div.innerHTML = "<table id='standings' class='t_standing center'><tr><th class='right_align'>#</th><th>Team</th><th class='right_align'>M</th><th class='right_align'>W</th><th class='right_align'>D</th><th class='right_align'>L</th><th class='right_align'>Goal</th><th class='right_align'>P</th></tr></table>";
                 var table = document.getElementById("standings");
                 receivedMsg.teams.sort(function (a, b) {
                     return b.points - a.points;
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 var div = document.getElementById("finished_matches");
 
                 if (Array.isArray(receivedMsg.teams)) {
-                    div.innerHTML = "<hr>Recent matches<p><table id='finishedMatches'></table>";
+                    div.innerHTML = "<hr>Recent matches<p><table id='finishedMatches' class='t_standing center'></table>";
                     var table = document.getElementById("finishedMatches");
 
                     receivedMsg.teams.forEach(function (element, index, array) {
@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // If it's an array, ie. has data.
                 if (Array.isArray(receivedMsg.teams)) {
-                    div.innerHTML = "<table id='coming_matches'></table>";
+                    div.innerHTML = "<table id='coming_matches' class='t_standing'></table>";
                     var table = document.getElementById("coming_matches");
                     receivedMsg.teams.forEach(function (element, index, array) {
 
@@ -218,10 +218,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         cell_2.innerHTML = "<button class='btn'>Start</button>";
                         cell_2.id = "start_match_" + element.id;
 
-
                         var row_2 = table.insertRow(-1);
                         var cell_hometeam = row_2.insertCell(0);
                         var cell_awayteam = row_2.insertCell(1);
+                        var cell_empty = row_2.insertCell(2);
+
+                        row_1.className = "first_second_four";
+                        row_2.className = "first_second_four";
 
                         cell_hometeam.innerHTML = element.hometeam;
                         cell_awayteam.innerHTML = element.awayteam;
@@ -262,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // If it's an array, ie. has data.
                 if (Array.isArray(receivedMsg.teams)) {
-                    div.innerHTML = "<table id='matches_without_startdate'></table>";
+                    div.innerHTML = "<table id='matches_without_startdate' class='t_standing'></table>";
                     var table = document.getElementById("matches_without_startdate");
 
                     receivedMsg.teams.forEach(function (element, index, array) {
@@ -279,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         row_2.className = "first_second_four";
 
                         cell_hometeam.innerHTML = element.hometeam;
-                        cell_date_field.innerHTML = "<input type='text' size='18' id='datepicker_" + element.id + "'>";
+                        cell_date_field.innerHTML = "<input type='text' size='15' id='datepicker_" + element.id + "'>";
                         cell_awayteam.innerHTML = element.awayteam;
                         cell_set_date_button.innerHTML = "<button class='btn'>Set match date</button>";
                         cell_set_date_button.id = "set_match_date_" + element.id;
