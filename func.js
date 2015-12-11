@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (receivedMsg.type == "table") {
                 var div = document.getElementById("view1");
-                div.innerHTML = "<table id='standings' class='t_standing center'><tr><th class='right_align'>#</th><th>Team</th><th class='right_align'>M</th><th class='right_align'>W</th><th class='right_align'>D</th><th class='right_align'>L</th><th class='right_align'>Goal</th><th class='right_align'>P</th></tr></table>";
+                div.innerHTML = "<table id='standings' class='center'><tr><th class='right_align'>#</th><th>Team</th><th class='right_align'>M</th><th class='right_align'>W</th><th class='right_align'>D</th><th class='right_align'>L</th><th class='right_align'>Goal</th><th class='right_align'>P</th></tr></table>";
                 var table = document.getElementById("standings");
                 receivedMsg.teams.sort(function (a, b) {
                     return b.points - a.points;
@@ -54,18 +54,18 @@ document.addEventListener("DOMContentLoaded", function () {
                         cell_standing.className = "right_align";
                         cell_standing.innerHTML = index + 1;
                         cell_team.innerHTML = element.team;
-                        cell_points.className = "right_align";
-                        cell_points.innerHTML = element.points;
                         cell_matches.innerHTML = element.won + element.draw + element.lost;
                         cell_matches.className = "right_align";
                         cell_won.innerHTML = element.won;
-                        cell_won.className = "right_align";
+                        cell_won.className = "right_align left_pad";
                         cell_draw.innerHTML = element.draw;
-                        cell_draw.className = "right_align";
+                        cell_draw.className = "right_align left_pad";
                         cell_lost.innerHTML = element.lost;
-                        cell_lost.className = "right_align";
+                        cell_lost.className = "right_align left_pad";
                         cell_goals.innerHTML = element.goals_for.toString() + "-" + element.goals_against.toString();
-                        cell_goals.className = "right_align";
+                        cell_goals.className = "right_align left_pad";
+                        cell_points.className = "right_align left_pad";
+                        cell_points.innerHTML = element.points;
                     });
                 }
 
@@ -75,10 +75,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 var div = document.getElementById("avtiveMatches");
 
                 if (Array.isArray(receivedMsg.teams)) {
-                    div.innerHTML = "<table id='matches' class='t_standing center'></table>";
+                    div.innerHTML = "<table id='matches' class='center'></table>";
                     var table = document.getElementById("matches");
 
                     receivedMsg.teams.forEach(function (element, index, array) {
+
+                        // When mousedown and mouseup event is registered.
+                        var mouse_start;
+                        var mouse_end;
+                        var mouse_delta;
+                        var half_second = 500;
+                        var one_second = 1000;
+                        var three_seconds = 3000;
+                        var five_seconds = 5000;
 
                         var row_1 = table.insertRow(-1);
 
@@ -116,44 +125,113 @@ document.addEventListener("DOMContentLoaded", function () {
                         cell_awayteam_addbutton.id = "add_goal_awayteam_" + element.id;
                         cell_awayteam_addbutton.className = "center_align plusbtn";
 
-                        // Add eventlistener() to add goals to a team.
-                        document.getElementById("add_goal_hometeam_" + element.id).addEventListener("click", function () {
-                            var d = new Date();
-                            var msg = {
-                                "type": "goal",
-                                "id": element.id,
-                                "league": element.league,
-                                "season": element.season,
-                                "scoringteam": "hometeam",
-                                "scoringgoal": "homegoal",
-                                "hometeam": element.hometeam,
-                                "awayteam": element.awayteam,
-                                "hometeam_score": element.hometeam_score,
-                                "awayteam_score": element.awayteam_score,
-                                "goal": 1,
-                                "scored_at": d
-                            }
-                            msg = JSON.stringify(msg);
-                            ws.send(msg);
+                        // Add eventlistener() to add goals to hometeam.
+                        var hometeam_goal = document.getElementById("add_goal_hometeam_" + element.id);
+
+                        hometeam_goal.addEventListener("mousedown", function homegoal_md () {
+                            mouse_start = new Date();
                         });
-                        document.getElementById("add_goal_awayteam_" + element.id).addEventListener("click", function () {
-                            var d = new Date();
-                            var msg = {
-                                "type": "goal",
-                                "id": element.id,
-                                "league": element.league,
-                                "season": element.season,
-                                "scoringteam": "awayteam",
-                                "scoringgoal": "awaygoal",
-                                "hometeam": element.hometeam,
-                                "awayteam": element.awayteam,
-                                "hometeam_score": element.hometeam_score,
-                                "awayteam_score": element.awayteam_score,
-                                "goal": 1,
-                                "scored_at": d
+
+                        hometeam_goal.addEventListener("mouseup", function homegoal_mu () {
+                            mouse_end = new Date();
+                            mouse_delta = mouse_end - mouse_start;
+
+                            if (mouse_delta < 500) {
+                                alert("Hold between half and a second to add goal. Longer than three to remove.");
                             }
-                            msg = JSON.stringify(msg);
-                            ws.send(msg);
+
+                            if (mouse_delta > half_second && mouse_delta < one_second) {
+                                var msg = {
+                                    "type": "goal",
+                                    "id": element.id,
+                                    "league": element.league,
+                                    "season": element.season,
+                                    "scoringteam": "hometeam",
+                                    "scoringgoal": "homegoal",
+                                    "hometeam": element.hometeam,
+                                    "awayteam": element.awayteam,
+                                    "hometeam_score": element.hometeam_score,
+                                    "awayteam_score": element.awayteam_score,
+                                    "goal": 1,
+                                    "scored_at": mouse_end
+                                }
+                                msg = JSON.stringify(msg);
+                                ws.send(msg);
+                            }
+
+                            if (mouse_delta > three_seconds && mouse_delta < five_seconds) {
+                                var msg = {
+                                    "type": "cancelgoal",
+                                    "id": element.id,
+                                    "league": element.league,
+                                    "season": element.season,
+                                    "scoringteam": "hometeam",
+                                    "scoringgoal": "homegoal",
+                                    "hometeam": element.hometeam,
+                                    "awayteam": element.awayteam,
+                                    "hometeam_score": element.hometeam_score,
+                                    "awayteam_score": element.awayteam_score,
+                                    "goal": -1,
+                                    "scored_at": mouse_end
+                                }
+                                msg = JSON.stringify(msg);
+                                ws.send(msg);
+                            }
+                            mouse_delta = 0;
+                        });
+
+                        // Add eventlistener() to add goals to awayteam.
+                        var awayteam_goal = document.getElementById("add_goal_awayteam_" + element.id);
+
+                        awayteam_goal.addEventListener("mousedown", function awaygoal_md () {
+                            mouse_start = new Date();
+                        });
+
+                        awayteam_goal.addEventListener("mouseup", function awaygoal_mu () {
+                            mouse_end = new Date();
+                            mouse_delta = mouse_end - mouse_start;
+
+                            if (mouse_delta < 500) {
+                                alert("Hold between half and a second to add goal. Longer than three to remove.");
+                            }
+
+                            if (mouse_delta > half_second && mouse_delta < one_second) {
+                                var msg = {
+                                    "type": "goal",
+                                    "id": element.id,
+                                    "league": element.league,
+                                    "season": element.season,
+                                    "scoringteam": "awayteam",
+                                    "scoringgoal": "awaygoal",
+                                    "hometeam": element.hometeam,
+                                    "awayteam": element.awayteam,
+                                    "hometeam_score": element.hometeam_score,
+                                    "awayteam_score": element.awayteam_score,
+                                    "goal": 1,
+                                    "scored_at": mouse_end
+                                }
+                                msg = JSON.stringify(msg);
+                                ws.send(msg);
+                            }
+
+                            if (mouse_delta > three_seconds && mouse_delta < five_seconds) {
+                                var msg = {
+                                    "type": "cancelgoal",
+                                    "id": element.id,
+                                    "league": element.league,
+                                    "season": element.season,
+                                    "scoringteam": "awayteam",
+                                    "scoringgoal": "awaygoal",
+                                    "hometeam": element.hometeam,
+                                    "awayteam": element.awayteam,
+                                    "hometeam_score": element.hometeam_score,
+                                    "awayteam_score": element.awayteam_score,
+                                    "goal": -1,
+                                    "scored_at": mouse_end
+                                }
+                                msg = JSON.stringify(msg);
+                                ws.send(msg);
+                            }
                         });
 
                         // Add eventlistener() to to end the match.
@@ -181,7 +259,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 var div = document.getElementById("finished_matches");
 
                 if (Array.isArray(receivedMsg.teams)) {
-                    div.innerHTML = "<hr>Recent matches<p><table id='finishedMatches' class='t_standing center'></table>";
+                    div.innerHTML = "<hr>Recent matches<p><table id='finishedMatches' class='center'></table>";
                     var table = document.getElementById("finishedMatches");
 
                     receivedMsg.teams.forEach(function (element, index, array) {
@@ -194,7 +272,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         cell_hometeam.innerHTML = element.hometeam;
                         cell_awayteam.innerHTML = element.awayteam;
+                        cell_awayteam.className = "left_pad";
                         cell_result.innerHTML = element.hometeam_score.toString() + "-" + element.awayteam_score.toString();
+                        cell_result.className = "left_pad";
                     });
                 }
             }
@@ -204,7 +284,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // If it's an array, ie. has data.
                 if (Array.isArray(receivedMsg.teams)) {
-                    div.innerHTML = "<table id='coming_matches' class='t_standing'></table>";
+                    div.innerHTML = "<table id='coming_matches'></table>";
                     var table = document.getElementById("coming_matches");
                     receivedMsg.teams.forEach(function (element, index, array) {
 
@@ -265,7 +345,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // If it's an array, ie. has data.
                 if (Array.isArray(receivedMsg.teams)) {
-                    div.innerHTML = "<table id='matches_without_startdate' class='t_standing'></table>";
+                    div.innerHTML = "<table id='matches_without_startdate'></table>";
                     var table = document.getElementById("matches_without_startdate");
 
                     receivedMsg.teams.forEach(function (element, index, array) {

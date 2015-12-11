@@ -47,8 +47,12 @@ td, th {
     padding-right: 15px;
 }
 
-.t_standing {
-    font-size: 0.96em;
+.left_pad {
+    padding-left: 4px;
+}
+
+body {
+    font: normal 12px Verdana;
 }
 
 .btn {
