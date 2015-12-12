@@ -75,7 +75,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 var div = document.getElementById("avtiveMatches");
 
                 if (Array.isArray(receivedMsg.teams)) {
-                    div.innerHTML = "<table id='matches' class='center'></table>";
+                    div.innerHTML = "<div id='pulse1' class=''></div><div id='pulse2' class=''></div>";
+                    div.innerHTML = div.innerHTML + "<table id='matches' class='center'></table>";
+
+                    var pulse1 = document.getElementById("pulse1");
+                    var pulse2 = document.getElementById("pulse2");
                     var table = document.getElementById("matches");
 
                     receivedMsg.teams.forEach(function (element, index, array) {
@@ -86,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         var mouse_delta;
                         var half_second = 500;
                         var one_second = 1000;
+                        var one_and_a_half_second = 1500;
                         var three_seconds = 3000;
                         var five_seconds = 5000;
 
@@ -129,18 +134,25 @@ document.addEventListener("DOMContentLoaded", function () {
                         var hometeam_goal = document.getElementById("add_goal_hometeam_" + element.id);
 
                         hometeam_goal.addEventListener("mousedown", function homegoal_md () {
-                            mouse_start = new Date();
+                            mouse_start = Date.now();
+
+                            setTimeout(function start_pulse() {
+                                pulse1.className = "pulse1";
+                                pulse2.className = "pulse2";
+                            }, 500);
                         });
 
                         hometeam_goal.addEventListener("mouseup", function homegoal_mu () {
-                            mouse_end = new Date();
-                            mouse_delta = mouse_end - mouse_start;
+                            mouse_delta = Date.now() - mouse_start;
+
+                            pulse1.className = "";
+                            pulse2.className = "";
 
                             if (mouse_delta < 500) {
                                 alert("Hold between half and a second to add goal. Longer than three to remove.");
                             }
 
-                            if (mouse_delta > half_second && mouse_delta < one_second) {
+                            if (mouse_delta > half_second && mouse_delta < one_and_a_half_second) {
                                 var msg = {
                                     "type": "goal",
                                     "id": element.id,
@@ -184,18 +196,25 @@ document.addEventListener("DOMContentLoaded", function () {
                         var awayteam_goal = document.getElementById("add_goal_awayteam_" + element.id);
 
                         awayteam_goal.addEventListener("mousedown", function awaygoal_md () {
-                            mouse_start = new Date();
+                            mouse_start = Date.now();
+
+                            setTimeout(function start_pulse() {
+                                pulse1.className = "pulse1";
+                                pulse2.className = "pulse2";
+                            }, 500);
                         });
 
                         awayteam_goal.addEventListener("mouseup", function awaygoal_mu () {
-                            mouse_end = new Date();
-                            mouse_delta = mouse_end - mouse_start;
+                            mouse_delta = Date.now() - mouse_start;
+
+                            pulse1.className = "";
+                            pulse2.className = "";
 
                             if (mouse_delta < 500) {
                                 alert("Hold between half and a second to add goal. Longer than three to remove.");
                             }
 
-                            if (mouse_delta > half_second && mouse_delta < one_second) {
+                            if (mouse_delta > half_second && mouse_delta < one_and_a_half_second) {
                                 var msg = {
                                     "type": "goal",
                                     "id": element.id,
