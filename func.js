@@ -81,6 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     var pulse1 = document.getElementById("pulse1");
                     var pulse2 = document.getElementById("pulse2");
                     var table = document.getElementById("matches");
+                    var ht_pulse_timeout; // Hometeam pulse
+                    var at_pulse_timeout; // Awayteam pulse
 
                     receivedMsg.teams.forEach(function (element, index, array) {
 
@@ -133,23 +135,29 @@ document.addEventListener("DOMContentLoaded", function () {
                         // Add eventlistener() to add goals to hometeam.
                         var hometeam_goal = document.getElementById("add_goal_hometeam_" + element.id);
 
-                        hometeam_goal.addEventListener("mousedown", function homegoal_md () {
+                        hometeam_goal.addEventListener("mousedown", function homegoal_md (event) {
                             mouse_start = Date.now();
 
-                            setTimeout(function start_pulse() {
+                            ht_pulse_timeout = setTimeout(function start_pulse() {
                                 pulse1.className = "pulse1";
                                 pulse2.className = "pulse2";
                             }, 500);
+
+                            setTimeout(function end_pulse() {
+                                pulse1.className = "";
+                                pulse2.className = "";
+                            }, 1500);
                         });
 
-                        hometeam_goal.addEventListener("mouseup", function homegoal_mu () {
+                        hometeam_goal.addEventListener("mouseup", function homegoal_mu (event) {
                             mouse_delta = Date.now() - mouse_start;
 
                             pulse1.className = "";
                             pulse2.className = "";
+                            clearTimeout(ht_pulse_timeout);
 
                             if (mouse_delta < 500) {
-                                alert("Hold between half and a second to add goal. Longer than three to remove.");
+                                alert("Hold between half and a second to add goal. Longer than three to remove. " + mouse_delta);
                             }
 
                             if (mouse_delta > half_second && mouse_delta < one_and_a_half_second) {
@@ -198,10 +206,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         awayteam_goal.addEventListener("mousedown", function awaygoal_md () {
                             mouse_start = Date.now();
 
-                            setTimeout(function start_pulse() {
+                            at_pulse_timeout = setTimeout(function start_pulse() {
                                 pulse1.className = "pulse1";
                                 pulse2.className = "pulse2";
                             }, 500);
+
+                            setTimeout(function end_pulse() {
+                                pulse1.className = "";
+                                pulse2.className = "";
+                            }, 1500);
                         });
 
                         awayteam_goal.addEventListener("mouseup", function awaygoal_mu () {
@@ -209,6 +222,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             pulse1.className = "";
                             pulse2.className = "";
+
+                            clearTimeout(at_pulse_timeout);
 
                             if (mouse_delta < 500) {
                                 alert("Hold between half and a second to add goal. Longer than three to remove.");

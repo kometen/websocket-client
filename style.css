@@ -1,4 +1,7 @@
-html {height: 100%;overflow:hidden}
+html {
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+}
 
 table {
     border-collapse: collapse;
