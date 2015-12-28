@@ -15,9 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
         var hname = window.location.hostname;
         ws = new WebSocket("ws://" + hname + ":9002");
         ws.onopen = function () {
-            var m = "la_liga";
+            var m = "La Liga";
             var msg = {
-                "type": "request",
+                "type": "get table",
                 "data": m
             }
             msg = JSON.stringify(msg);
@@ -28,7 +28,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (receivedMsg.type == "table") {
                 var div = document.getElementById("view1");
-                div.innerHTML = "<table id='standings' class='center'><tr><th class='right_align'>#</th><th>Team</th><th class='right_align'>M</th><th class='right_align'>W</th><th class='right_align'>D</th><th class='right_align'>L</th><th class='right_align'>Goal</th><th class='right_align'>P</th></tr></table>";
+                var tmptable = "<table id='standings' class='center'><tr><th class='right_align'>#</th><th>Team</th><th class='right_align'>M</th>";
+                tmptable = tmptable + "<th class='right_align'>W</th><th class='right_align'>D</th><th class='right_align'>L</th>";
+                tmptable = tmptable + "<th class='right_align'>Goal</th><th class='right_align'>P</th></tr></table>";
+                div.innerHTML = tmptable;
                 var table = document.getElementById("standings");
                 receivedMsg.teams.sort(function (a, b) {
                     return b.points - a.points;
