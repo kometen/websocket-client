@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         cell_standing.className = "right_align";
                         cell_standing.innerHTML = index + 1;
-                        cell_team.innerHTML = element.team;
+                        cell_team.innerHTML = element.team.substr(0, 16);
                         cell_matches.innerHTML = element.won + element.draw + element.lost;
                         cell_matches.className = "right_align";
                         cell_won.innerHTML = element.won;
