@@ -15,10 +15,12 @@ document.addEventListener("DOMContentLoaded", function () {
         var hname = window.location.hostname;
         ws = new WebSocket("ws://" + hname + ":9002");
         ws.onopen = function () {
-            var m = "La Liga";
+            var league = "La Liga";
+            var season = "2015/2016";
             var msg = {
                 "type": "get table",
-                "data": m
+                "league": league,
+                "season": season
             }
             msg = JSON.stringify(msg);
             ws.send(msg);
