@@ -177,10 +177,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "awayteam": element.awayteam,
                                     "hometeam_score": element.hometeam_score,
                                     "awayteam_score": element.awayteam_score,
-                                    "goal": 1,
+                                    "goal": "1",
                                     "scored_at": mouse_end
                                 }
                                 msg = JSON.stringify(msg);
+                                console.log(msg);
                                 ws.send(msg);
                             }
 
@@ -196,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "awayteam": element.awayteam,
                                     "hometeam_score": element.hometeam_score,
                                     "awayteam_score": element.awayteam_score,
-                                    "goal": -1,
+                                    "goal": "-1",
                                     "scored_at": mouse_end
                                 }
                                 msg = JSON.stringify(msg);
@@ -246,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "awayteam": element.awayteam,
                                     "hometeam_score": element.hometeam_score,
                                     "awayteam_score": element.awayteam_score,
-                                    "goal": 1,
+                                    "goal": "1",
                                     "scored_at": mouse_end
                                 }
                                 msg = JSON.stringify(msg);
@@ -265,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "awayteam": element.awayteam,
                                     "hometeam_score": element.hometeam_score,
                                     "awayteam_score": element.awayteam_score,
-                                    "goal": -1,
+                                    "goal": "-1",
                                     "scored_at": mouse_end
                                 }
                                 msg = JSON.stringify(msg);
