@@ -181,7 +181,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "scored_at": mouse_end
                                 }
                                 msg = JSON.stringify(msg);
-                                console.log(msg);
                                 ws.send(msg);
                             }
 
