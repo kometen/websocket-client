@@ -364,7 +364,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
                     });
                 } else {
-                    div.innerHTML = "Pls. assign a starting date from Login pane."
+                    div.innerHTML = "Pls. assign a starting date from Login pane.";
                 }
             }
 
