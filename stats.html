@@ -1,46 +1,38 @@
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="stylesheet" type="text/css" href="tabcontent.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" type="text/css" href="pikaday.min.css">
-    <title>Sioux</title>
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="stylesheet" type="text/css" href="tabcontent.css">
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="pikaday.min.css">
+<title>Sioux</title>
 </head>
 <body>
-    <ul class="tabs">
-        <li><a href="#view1">Table</a></li>
-        <li><a href="#view2">Goal</a></li>
-        <li><a href="#view3">Game</a></li>
-        <li><a href="#view9">Login</a></li>
-    </ul>
-    <div class="tabcontents">
-        <div id="view1">
-            <div id="view1"></div>
-        </div>
-        <div id="view2">
-            <div id="avtiveMatches"></div>
-            <div id="finished_matches"></div>
-        </div>
-        <div id="view3">
-            Pls. assign games with a starting date from Login pane.
-        </div>
-        <div id="view9">
-            <div>
-                <button onclick="getMatchesWithoutDate()" class="btn" id="gamesWithoutDateButton">Fetch</button>
-                matches with unassigned dates.
-                <div id="matchesWithoutDate"></div>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript" src="func.js"></script>
-    <script type="text/javascript" src="tabcontent.js"></script>
-    <script type="text/javascript" src="moment.min.js"></script>
-    <script type="text/javascript" src="moment_dk.min.js"></script>
-    <script type="text/javascript" src="pikaday.min.js"></script>
+<ul class="tabs">
+<li><a href="#view1">Table</a></li>
+<li><a href="#view2">Goal</a></li>
+<li><a href="#view3">Game</a></li>
+<li><a href="#view9">Login</a></li>
+</ul>
+<div class="tabcontents">
+<div id="view1"><div id="view1"></div></div>
+<div id="view2"><div id="avtiveMatches"></div><div id="finished_matches"></div>
+</div>
+<div id="view3">Pls. assign games with a starting date from Login pane.</div>
+<div id="view9">
+<div>
+<button onclick="getMatchesWithoutDate()" class="btn" id="gamesWithoutDateButton">Fetch</button>
+matches with unassigned dates.
+<div id="matchesWithoutDate"></div>
+</div>
+</div>
+</div>
+<script type="text/javascript" src="func.min.js"></script>
+<script type="text/javascript" src="tabcontent.js"></script>
+<script type="text/javascript" src="moment.min.js"></script>
+<script type="text/javascript" src="moment_dk.min.js"></script>
+<script type="text/javascript" src="pikaday.min.js"></script>
 </body>
 </html>
