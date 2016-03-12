@@ -363,6 +363,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             ws.send(msg);
                         });
                     });
+                } else {
+                    div.innerHTML = "Pls. assign a starting date from Login pane."
                 }
             }
 
