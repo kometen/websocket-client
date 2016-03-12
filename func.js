@@ -363,19 +363,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             ws.send(msg);
                         });
                     });
-                } else {
-                    div.innerHTML = "<button class='btn' id='get_coming_matches'>Click</button> to fetch coming matches."
-                    // Add eventlistener() to start a match.
-                    document.getElementById("get_coming_matches").addEventListener("click", function () {
-                        var d = new Date();
-                        var msg = {
-                            "type": "get_coming_matches",
-                            "league": window.league,
-                            "season": window.season,
-                        }
-                        msg = JSON.stringify(msg);
-                        ws.send(msg);
-                    });
                 }
             }
 
